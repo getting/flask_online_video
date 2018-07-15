@@ -1,0 +1,249 @@
+{% extends "home/home.html" %}
+{% import "includes/comment_page.html" as pg %}
+{% block content %}
+    {% block css %}
+
+        <!--播放页面-->
+        <link rel="stylesheet" type="text/css"
+              href="{{ url_for('static', filename='jwplayer/skins/stormtrooper.css') }}">
+        <script type="text/javascript" src="{{ url_for('static', filename='ueditor/ueditor.config.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='ueditor/ueditor.all.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='ueditor/lang/zh-cn/zh-cn.js') }}"></script>
+        <script>
+            SyntaxHighlighter.all();
+        </script>
+        <!--播放页面-->
+
+        <style>
+
+            .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+                padding-right: 3px;
+                padding-left: 3px;
+            }
+
+        </style>
+    {% endblock %}
+    <!--内容-->
+
+    <div class="row">
+        <div class="col-md-8">
+            <div id="moviecontainer">
+                <iframe src="{{ movie.url | safe }}" width="100%" height="500" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no" frameborder="0"></iframe>
+            </div>
+        </div>
+        <div class="col-md-4" style="height:500px;">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp;电影介绍</h3>
+                </div>
+                <div class="panel-body" style="height:459px; overflow: scroll;">
+                    <table class="table">
+                        <tr>
+                            <td style="width:30%;color:#ccc;font-weight:bold;font-style:italic;">
+                                <span class="glyphicon glyphicon-film"></span>&nbsp;片名
+                            </td>
+                            <td>{{ movie.title }}</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                <span class="glyphicon glyphicon-facetime-video"></span>&nbsp;类别
+                            </td>
+                            <td>{{ movie.tag.name }}</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                <span class="glyphicon glyphicon-time"></span>&nbsp;片长
+                            </td>
+                            <td>{{ movie.length }}</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;地区
+                            </td>
+                            <td><a href="{{ url_for('home.models', name=movie.area, page=1) }}">{{ movie.area }}</a></td>
+                        </tr>
+                        <tr>
+                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                <span class="glyphicon glyphicon-star"></span>&nbsp;豆瓣评分
+                            </td>
+                            <td>
+                                <div>
+                                    <span>8.5分</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                <span class="glyphicon glyphicon-calendar"></span>&nbsp;上映时间
+                            </td>
+                            <td>{{ movie.release_time }}</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                <span class="glyphicon glyphicon-play"></span>&nbsp;播放数量
+                            </td>
+                            <td>{{ movie.play_num }}</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                <span class="glyphicon glyphicon-comment"></span>&nbsp;评论数量
+                            </td>
+                            <td>{{ movie.comment_num }}</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                <span class="glyphicon glyphicon-magnet"></span>&nbsp;种子下载
+                            </td>
+                            <td><a href="https://btso.pw/search/{{ movie.title | safe }}">立即下载</a> </td>
+                        </tr>
+                        <tr>
+                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                <span class="glyphicon glyphicon-picture"></span>&nbsp;影片介绍
+                            </td>
+                            <td>
+                                {{ movie.description }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-top:6px;">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span>&nbsp;电影评论</h3>
+                </div>
+                {% for msg in get_flashed_messages(category_filter=["OK"]) %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="alert-heading"><i class="icon fa fa-check"></i>{{ msg }}</h4>
+                    </div>
+                {% endfor %}
+                <div class="panel-body">
+                    {% if "user" not in session %}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span aria-hidden="true">×</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <strong>请先<a href="{{ url_for('home.login') }}" target="_blank" class="text-info">登录</a>，才可参与评论！</strong>
+                        </div>
+                    {% endif %}
+                    <ol class="breadcrumb" style="margin-top:6px;">
+                        <li>全部评论({{ movie.comment_num }})</li>
+                    </ol>
+                    {% if "user" in session %}
+                        <form role="form" style="margin-bottom:6px;" method="post">
+                            <div class="form-group">
+                                <div>
+                                    <label for="input_content">{{ form.content.label }}</label>
+                                    {{ form.content }}
+                                    {% for err in form.content.errors %}
+                                        <div class="col-md-12">
+                                            <font style="color:red">{{ err }}</font>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                            {{ form.submit | safe }}
+                            {{ form.csrf_token }}
+                            &nbsp;
+                            <a class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏电影</a>
+
+                            <div class="col-md-12 clearfix">
+                                <font style="color: green" id="show_fav_msg"></font>
+                            </div>
+                        </form>
+                    {% endif %}
+
+                    <ul class="commentList">
+                        {% for c in page_num.items %}
+                            <li class="item cl">
+                                <a href="{{ url_for('home.user') }}">
+                                    <i class="avatar size-L radius">
+                                        {% if c.user.img %}
+                                            <img alt="50x50"
+                                                 src="{{ url_for('static', filename='uploads/users/' + c.user.img) }}"
+                                                 class="img-circle"
+                                                 style="border:1px solid #abcdef; width: 50px">
+                                        {% else %}
+                                            <img alt="50x50"
+                                                 data-src="holder.js/50x50"
+                                                 class="img-circle"
+                                                 style="border:1px solid #abcdef; width: 50px">
+                                        {% endif %}
+                                    </i>
+                                </a>
+                                <div class="comment-main">
+                                    <header class="comment-header">
+                                        <div class="comment-meta">
+                                            <a class="comment-author"
+                                               href="{{ url_for('home.user') }}">{{ c.user.name }}</a>
+                                            评论于
+                                            <time title="{{ c.add_time }}" datetime="{{ c.add_time }}">
+                                                {{ c.add_time }}
+                                            </time>
+                                        </div>
+                                    </header>
+                                    <div class="comment-body">
+                                        <p>{{ c.content | safe }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="col-md-12 text-center">
+                        {{ pg.page(page_num, "home.play", movie.id) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<!--内容-->
+
+
+<!--播放页面-->
+{% block js %}
+
+{#    <script src="{{ url_for('static', filename='jwplayer/jwplayer.js') }}"></script>#}
+    <script>
+        var ue = UE.getEditor('input_content', {
+            toolbars: [
+                ['fullscreen', 'emotion', 'preview', 'link']
+            ],
+            initialFrameWidth: "100%",
+            initialFrameHeight: "100"
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#btn-col").click(function () {
+                var mid = {{ movie.id }};
+                var uid = {{ session["user_id"] }};
+                $.ajax({
+                    url: "{{ url_for('home.moviefav') }}",
+                    type: "GET",
+                    data: "mid=" + mid + "&uid=" + uid,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.ok == 1) {
+                            $("#show_fav_msg").empty();
+                            $("#show_fav_msg").append("收藏成功")
+                        } else {
+                            $("#show_fav_msg").empty();
+                            $("#show_fav_msg").append("已经收藏")
+                        }
+
+                    }
+                })
+            })
+        })
+    </script>
+
+{% endblock %}
+<!--播放页面-->

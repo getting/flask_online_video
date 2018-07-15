@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.esm.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.esm.bundle.js"></script>
+   <style type="text/css">
+        .swiper-container{
+            width: 100%;
+            height: 375px;
+        }
+    </style>
+</head>
+<body>
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="{{ url_for('static', filename='animation/main_banner/big0020150102211033.jpg') }}">1</div>
+        <div class="swiper-slide"><img src="{{ url_for('static', filename='animation/main_banner/big0020150102211033.jpg') }}">2</div>
+        <div class="swiper-slide"><img src="{{ url_for('static', filename='animation/main_banner/big0020150102211033.jpg') }}">3</div>
+        <div class="swiper-slide"><img src="{{ url_for('static', filename='animation/main_banner/big0020150102211033.jpg') }}">4</div>
+        <div class="swiper-slide"><img src="{{ url_for('static', filename='animation/main_banner/big0020150102211033.jpg') }}">5</div>
+    </div>
+    <!-- 如果需要分页器 -->
+    <div class="swiper-pagination"></div>
+
+    <!-- 如果需要导航按钮 -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+
+    <!-- 如果需要滚动条 -->
+    <!-- <div class="swiper-scrollbar"></div> -->
+</div>
+{% block js %}
+    <script type="text/javascript">
+    var mySwiper = new Swiper ('.swiper-container', {
+    // 滚动方向 horizontal/vertical
+    direction: 'horizontal',
+    // 自动播放
+    autoplay:2000,
+    // 是否循环播放
+    loop: true,
+    // 如果需要分页器（小圆点）
+    // 是否需要分页器
+    pagination: '.swiper-pagination',
+    // 点击分页器是否切换到对应的图片 是 true 否 false
+    paginationClickable:true,
+
+    // 如果需要前进后退按钮
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+
+    // 用户操作swiper之后，是否禁止autoplay。默认为true：停止。
+    // 如果设置为false，用户操作swiper之后自动切换不会停止，每次都会重新启动autoplay。
+    // 操作包括触碰，拖动，点击pagination等。
+    autoplayDisableOnInteraction:false,
+  })
+
+</script>
+{% endblock %}
+
+</body>
+</html>

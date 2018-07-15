@@ -1,0 +1,83 @@
+{% extends "admin/admin.html" %}
+{% import "includes/paginate.html" as pg %}
+{% block content %}
+    <!--内容-->
+    <section class="content-header">
+        <h1>小电影管理系统</h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> 评论管理</a></li>
+            <li class="active">评论列表</li>
+        </ol>
+    </section>
+    <section class="content" id="showcontent">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">评论列表</h3>
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control pull-right"
+                                       placeholder="请输入关键字...">
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% for msg in get_flashed_messages(category_filter=["OK"]) %}
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="alert-heading"><i class="icon fa fa-check"></i>操作成功</h4>
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                    <div class="box-body box-comments">
+                        {% for p in page_num.items %}
+                            <div class="box-comment">
+                                {% if p.user.img %}
+                                    <img class="img-circle img-sm"
+                                         src="{{ url_for('static', filename='uploads/users/' + p.user.img) }}"
+                                         alt="User Image">
+                                {% else %}
+                                    <img alt="50x50" data-src="holder.js/50x50" class="img-circle"
+                                         style="border:1px solid #abcdef; width: 50px;">
+                                {% endif %}
+                                <div class="comment-text">
+                                <span class="username">
+                                    {{ p.user.name }}
+                                    <span class="text-muted pull-right">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        &nbsp;
+                                        {{ p.add_time }}
+                                    </span>
+                                </span>
+                                    关于电影<a href="{{ url_for("home.play", id=p.movie.id, page=1) }}">{{ p.movie.title }}</a>的评论：{{ p.content | safe }}
+                                    <br><a href="{{ url_for("admin.comment_del", id=p.id) }}"
+                                           class="label label-danger pull-right">删除</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="box-footer clearfix">
+                        {{ pg.page(page_num, "admin.comments_list") }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--内容-->
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            $("#g-6").addClass("active");
+            $("#g-6-1").addClass("active");
+        })
+    </script>
+{% endblock %}

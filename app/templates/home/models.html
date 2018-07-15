@@ -1,0 +1,57 @@
+{% extends "home/layout.html" %}
+{% import "includes/paginate1.html" as pg %}
+{% block content %}
+    <!--热门电影-->
+    <section id="hotmovie" style="margin-top:76px">
+        <div class="container">
+            <div class="row wow fadeInRight" data-wow-delay="0.25s">
+                <div class="row">
+                    <iframe class="wow fadeIn" width="100%" height="375px" frameborder=0 scrolling=no
+                            src="{{ url_for('home.animation') }}"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--热门电影-->
+    <!--电影列表-->
+    <section id="movielist">
+        <div class="container">
+            <div class="row wow fadeIn" data-wow-delay="0.25s">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <p style="font-size: 28px;" >与"{{ name }}"有关的电影</p>
+                    </ol>
+                </div>
+                {% for p in page_data.items %}
+                    <div class="col-md-3">
+                        <div class="movielist text-center">
+                            <!--<img data-original="holder.js/262x166"
+                                     class="img-responsive lazy center-block" alt="">-->
+                            <a href="{{ url_for('home.play', id=p.id, page=1) }}">
+                                <img src="{{ url_for('static', filename='uploads/' + p.logo  ) }}"
+                                     style="  width: 266px; height: 375px; margin-top: 25px; padding: 5px;"
+                                     class="img-responsive center-block" alt=""></a>
+                            <div class="text-center" style="margin-left:auto;margin-right:auto;width:100%;">
+                                <span style="color:#999;font-style: italic;">{{ p.title }}</span><br>
+                                <div>
+                                    {% for i in range(p.star) %}
+                                        <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+                                    {% endfor %}
+                                    {% for i in range(5-p.star) %}
+                                        <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <div class="col-md-12 text-center">
+        {{ pg.page(page_data, name, 'home.models') }}
+    </div>
+    <!--电影列表-->
+{% endblock %}

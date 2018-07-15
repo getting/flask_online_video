@@ -1,0 +1,16 @@
+<div class="col-md-3">
+    <div class="list-group" >
+        <a href="{{ url_for('home.user') }}" class="list-group-item" id="g-1-1">
+            <span class="glyphicon glyphicon-user"></span>&nbsp;用户中心
+        </a>
+        <a href="{{ url_for('home.passwd')}}" class="list-group-item" id='g-1-2'>
+            <span class="glyphicon glyphicon-lock"></span>&nbsp;修改密码
+        </a>
+        <a href="{{ url_for('home.loginlog', page='1')}}" class="list-group-item" id="g-1-4">
+            <span class="glyphicon glyphicon-calendar"></span>&nbsp;登录日志
+        </a>
+        <a href="{{ url_for('home.moviefav_list', page='1') }}" class="list-group-item" id="g-1-5">
+            <span class="glyphicon glyphicon-heart"></span>&nbsp;收藏电影
+        </a>
+    </div>
+</div>

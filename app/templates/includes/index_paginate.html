@@ -1,0 +1,68 @@
+{% macro page(data, _uri) %}
+{% if data %}
+    {% if '&' in _uri %}
+    <ul class="pagination pagination-sm no-margin ">
+        <li><a href="{{ _uri }}&page=1">首页</a></li>
+
+        {% if data.has_prev %}
+        <li><a href="{{ _uri }}&page={{ data.prev_num }}">上一页</a></li>
+        {% else %}
+        <li class="disabled"><a href="#">上一页</a> </li>
+        {% endif %}
+
+        {% for p in data.iter_pages(left_edge=0, left_current=1, right_current=2, right_edge=1) %}
+        {% if p %}
+            {% if p == data.page %}
+            <li class="active"><a href="{{ _uri }}&page={{ data.page }}"><strong>{{ p }}</strong></a> </li>
+            {% else %}
+            <li><a href="{{ _uri }}&page={{ p }}">{{ p }}</a> </li>
+            {% endif %}
+        {% else %}
+            <li><span class=ellipsis>…</span> </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if data.has_next %}
+        <li><a href="{{ _uri }}&page={{ data.next_num }}">下一页</a> </li>
+        {% else %}
+        <li class="disabled"><a href="#">下一页</a></li>
+        {% endif %}
+
+        <li><a href="{{ _uri }}&page={{ data.pages }}">尾页</a></li>
+    </ul>
+
+    {% else %}
+        <ul class="pagination pagination-sm no-margin ">
+        <li><a href="{{ _uri }}?page=1">首页</a></li>
+
+        {% if data.has_prev %}
+        <li><a href="{{ _uri }}?page={{ data.prev_num }}">上一页</a></li>
+        {% else %}
+        <li class="disabled"><a href="#">上一页</a> </li>
+        {% endif %}
+
+        {% for p in data.iter_pages(left_edge=0, left_current=1, right_current=2, right_edge=1) %}
+        {% if p %}
+            {% if p == data.page %}
+            <li class="active"><a href="{{ _uri }}?page={{ data.page }}"><strong>{{ p }}</strong></a> </li>
+            {% else %}
+            <li><a href="{{ _uri }}?page={{ p }}">{{ p }}</a> </li>
+            {% endif %}
+        {% else %}
+            <li><span class=ellipsis>…</span> </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if data.has_next %}
+        <li><a href="{{ _uri }}?page={{ data.next_num }}">下一页</a> </li>
+        {% else %}
+        <li class="disabled"><a href="#">下一页</a></li>
+        {% endif %}
+
+        <li><a href="{{ _uri }}?page={{ data.pages }}">尾页</a></li>
+    </ul>
+    {% endif %}
+
+{% endif %}
+
+{% endmacro %}
