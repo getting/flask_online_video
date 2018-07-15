@@ -13,7 +13,8 @@
 <img src="./screenshots/Screenshot from 2018-07-15 10-36-31.png" alt="主界面" title="主界面" width="100%" height="100%" />
 
 ##### 用户中心界面   
-<img src="./screenshots/Screenshot from 2018-07-14 19-29-00 - 1.png" alt="主界面" title="主界面" width="100%" height="100%" />
+<img src="./screenshots/Screenshot from 2018-07-14 19-29-00 - 1.png" alt="主界面" title="主界面" width="100%" height="100%" />  
+
 ##### 使用说明  
 
     1. git clone https://github.com/moleen/flask_online_video.git  
