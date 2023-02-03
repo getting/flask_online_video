@@ -7,6 +7,6 @@ itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
 SQLAlchemy==1.2.5
-Werkzeug==0.14.1
+Werkzeug==0.15.5
 WTForms==2.1
 pymysql==0.7.2
